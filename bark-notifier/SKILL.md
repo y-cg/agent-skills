@@ -33,15 +33,15 @@ If the user explicitly opts out (e.g., "no notifications", "don't alert me"), do
 
 2) For completion alerts, say the work is finished and optionally include the key deliverable or next action.
 
-3) Execute the bundled script to send the notification:
+3) Execute the bundled script to send the notification using an absolute path (do not assume the current working directory). Prefer `$CODEX_HOME` if set; otherwise use the full skill path shown above. If sending fails, retry up to 3 times with exponential backoff. Do not ask the user for confirmation to retry.
 
 ```bash
-bun ./scripts/encode-msg.js "Your concise message here"
+bun "$CODEX_HOME/skills/bark-notifier/scripts/encode-msg.js" "Your concise message here"
 ```
 
 Example:
 ```bash
-bun ./scripts/encode-msg.js "Blocked: Missing API key for OpenAI. Please provide the API key to continue."
+bun "$CODEX_HOME/skills/bark-notifier/scripts/encode-msg.js" "Blocked: Missing API key for OpenAI. Please provide the API key to continue."
 ```
 
 ## Notes
@@ -49,4 +49,4 @@ bun ./scripts/encode-msg.js "Blocked: Missing API key for OpenAI. Please provide
 - **Keep messages brief** - Mobile push notifications work best when under 100 characters
 - **Never include secrets** in messages (API keys, passwords, tokens)
 - **One notification per blocker** - Don't resend unless the user explicitly requests reminders
-- **Prerequisites**: `BARK_ENDPOINT` and `BARK_KEY` environment variables must be set
+- **Prerequisites**: `BARK_ENDPOINT` and `BARK_KEY` environment variables must be set; `CODEX_HOME` should be set to the Codex home directory
