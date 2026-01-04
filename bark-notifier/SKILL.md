@@ -1,9 +1,9 @@
 ---
 name: bark-notifier
-description: Send a Bark push notification when the agent is stuck, blocked, or needs user input. Use when a user asks to be notified on being stuck, wants Bark alerts, or mentions $BARK_ENDPOINT/$BARK_KEY notifications.
+description: Send a Bark push notification when work is blocked, needs user input, or when all requested tasks are finished. Use by default for these cases unless the user explicitly opts out.
 ---
 
-# Bark Stuck Notifier
+# Bark Notifier
 
 ## When to Notify
 
@@ -21,13 +21,19 @@ Send a notification when blocked and cannot proceed without user intervention:
 - Missing documentation that can be found by searching
 - Normal workflow steps (e.g., "which branch should I use?")
 
+Send a notification when all requested tasks are completed and the user asked for a completion alert.
+
+If the user explicitly opts out (e.g., "no notifications", "don't alert me"), do not send a notification.
+
 ## Steps
 
 1) Compose a concise, actionable message that identifies:
    - What is blocking progress
    - What specific action or input is needed from the user
 
-2) Execute the bundled script to send the notification:
+2) For completion alerts, say the work is finished and optionally include the key deliverable or next action.
+
+3) Execute the bundled script to send the notification:
 
 ```bash
 bun ./scripts/encode-msg.js "Your concise message here"
